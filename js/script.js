@@ -2,8 +2,7 @@
 // when user clicks anywhere on the page, the "makeQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", loadQuote, false);
 
-//Array with Various Quotes Stored.
-
+//Array quotes with various quotes
 var quotes = [
     {
         fullName: "Albert Einstein",
@@ -27,37 +26,56 @@ var quotes = [
         quote: "The enemy of great is good."
     }
 ];
+//Array used for all background colors
+var colors = [
+    "purple",
+    "green",
+    "blue"
+];
+//Set AvailableQuotes Array
+//Array availableQuotes to add index of quotes array
+var availableQuotes = new Array();
+function getQuotes(item, index){
+    availableQuotes.push(index);
+}
+//Load each index from each quote, from quotes array.
+quotes.forEach(getQuotes);
 
 function loadQuote() {
-    //Testing the load of a random color
-    $("body").css("background-color", "purple");
-    //Selects a random from length of quotes array
-    var randomNumber = Math.floor(Math.random() * quotes.length);
-    //Logs to console to display TESTING ONLY
-    console.log(randomNumber);
-    console.log(quotes[randomNumber].fullName + ", " + quotes[randomNumber].year + ", " + quotes[randomNumber].quote);
-    console.log(quotes[randomNumber].type);
+    //Select a random color for the background
+    var colorNumber = Math.floor(Math.random()* colors.length);
+    //load a random color and set it to body and #loadQuote
+    $("body, #loadQuote").css("background-color", colors[colorNumber]);
+    if (availableQuotes.length < 1){
+        //Reload each index from each quote, from quotes array.
+        quotes.forEach(getQuotes);
+    }
+    //Selects a random from length of availableQuotes array
+    var randomNumber = Math.floor(Math.random() * availableQuotes.length);
+    //stores the index number of the quotes array
+    var quoteNumber = availableQuotes[randomNumber];
+    //Remove that quote from the array
+    availableQuotes.splice(randomNumber, 1);
 
     //displays currently selected quote to class "quote"
     var quote = document.getElementsByClassName("quote");
-    quote[0].innerHTML = quotes[randomNumber].quote;
+    quote[0].innerHTML = quotes[quoteNumber].quote;
     var html = "";
     //displays currently selected quote to class "fullName"
-    if (quotes[randomNumber].fullName !== "") {
-        console.log('true');
-        html = html + '<span class="fullName">' + quotes[randomNumber].fullName + '</span>';
+    if (quotes[quoteNumber].fullName !== "") {
+        html = html + '<span class="fullName">' + quotes[quoteNumber].fullName + '</span>';
     }
     //displays currently selected quote to class "citation"
-    if (quotes[randomNumber].citation !== "") {
-        html = html + '<span class="citation">' + quotes[randomNumber].citation + '</span>';
+    if (quotes[quoteNumber].citation !== "") {
+        html = html + '<span class="citation">' + quotes[quoteNumber].citation + '</span>';
     }
     //displays currently selected quote to class "year"
-    if (quotes[randomNumber].year !== "") {
-        html = html + '<span class="year">' + quotes[randomNumber].year + '</span>';
+    if (quotes[quoteNumber].year !== "") {
+        html = html + '<span class="year">' + quotes[quoteNumber].year + '</span>';
     }
     //displays currently selected quote to class "type"
-    if (quotes[randomNumber].type !== "") {
-        html = html + '<span class="type">' + quotes[randomNumber].type + '</span>';
+    if (quotes[quoteNumber].type !== "") {
+        html = html + '<span class="type">' + quotes[quoteNumber].type + '</span>';
     }
 
     //displays the group HTML line
